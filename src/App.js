@@ -15,7 +15,7 @@ function App() {
     // </div>
     <main>
       <Switch>
-          <Route path='/' component={Home} exact />
+          <PrivateRoute path='/' component={Home} exact />
           {/*<PrivateRoute path="/private1/:id?" exact component={PrivateComponent1}/>*/}
           <Route path='/login' component={LoginForm} />
           <Route component={PageNotFound} />
