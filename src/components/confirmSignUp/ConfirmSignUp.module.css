@@ -1,5 +1,5 @@
-.loginForm {
-  max-width: 300px;
+.registerForm {
+  max-width: 500px;
   margin: auto;
 }
 .loginFormForgot {
@@ -15,13 +15,9 @@
 .loginContainer {
 }
 
-.loginFormWrapper {
+.registerFormWrapper {
   display: flex;
   height: 100vh;
   width: 100vw;
   margin: 0;
-}
-
-.errorAlert {
-  margin-bottom: 15px;
 }

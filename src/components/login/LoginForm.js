@@ -1,23 +1,60 @@
-import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, {useState} from 'react';
+import {
+  useHistory,
+  Link
+} from 'react-router-dom';
+import { Form, Input, Button, Checkbox ,Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './LoginForm.module.css';
 
+import {signIn} from '../../apis/userApi'
+import {NOT_AUTHORIZED_EXCEPTION,LOGIN_FAILED_GENERIC_MSG,INCORRECT_CREDENTIALS_MSG,} from './constants'
+
+
 const LoginForm = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
+  const history = useHistory();
+  const [loginInProgress,setLoginInProgress] = useState(false);
+  const [hasError,setHasError] = useState(false);
+  const [errorMsg,setErrorMsg] = useState(LOGIN_FAILED_GENERIC_MSG);
+  const errorAlert =(<Alert className={styles.errorAlert}
+      message="Login Error"
+      description={errorMsg}
+      type="error"
+      showIcon
+  />)
+
+  const handleLogin = (values)=>{
+    setLoginInProgress(true)
+    const {username,password} = values;
+
+    signIn(username,password).then(data=>{
+      console.log('data')
+      history.push('/')
+      setHasError(false)
+      // setLoginInProgress(false)
+    }).catch(error=>{
+      console.log(error)
+      const {code} = error || {};
+      setErrorMsg(code===NOT_AUTHORIZED_EXCEPTION ? INCORRECT_CREDENTIALS_MSG : LOGIN_FAILED_GENERIC_MSG)
+      setHasError(true)
+      setLoginInProgress(false)
+    })
+
+  }
 
   return (
     <div className={styles.loginFormWrapper}>
+
       <Form
         name="normal_login"
         className={styles.loginForm}
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
+        onFinish={handleLogin}
       >
+        {hasError?errorAlert:null}
+
         <Form.Item
           name="username"
           rules={[
@@ -51,10 +88,10 @@ const LoginForm = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className={styles.loginFormButton}>
+          <Button type="primary" htmlType="submit" loading={loginInProgress} className={styles.loginFormButton}>
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <Link  to="/register">register now!</Link >
         </Form.Item>
       </Form>
     </div>
