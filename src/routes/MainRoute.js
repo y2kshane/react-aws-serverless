@@ -5,7 +5,7 @@ import Home from "../containers/home/Home";
 import { Route, Switch } from "react-router-dom";
 import LoginForm from "../containers/login/LoginForm";
 import ConfirmUser from "../containers/confirmUser/ConfirmUser";
-import RegistrationForm from "../containers/register/RegistrationForm";
+import UserRegistration from "../containers/register/UserRegistration";
 import PageNotFound from "../components/pageNotFound/PageNotFound";
 
 const routes = (
@@ -16,7 +16,7 @@ const routes = (
       <Route path="/login" component={LoginForm} />
       <Route path="/resetPassword" component={LoginForm} />
       <Route path="/confirmUser" component={ConfirmUser} />
-      <Route path="/register" component={RegistrationForm} />
+      <Route path="/register" component={UserRegistration} />
       <Route component={PageNotFound} />
     </Switch>
   </Fragment>
